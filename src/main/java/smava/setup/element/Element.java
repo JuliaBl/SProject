@@ -7,8 +7,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
+import static smava.setup.WebDriverRunner.getTLDriver;
 
-import static smava.setup.SeleniumDriver.getDriver;
 
 public class Element{
     private static final int LOAD_TIMEOUT = 60;
@@ -19,9 +19,8 @@ public class Element{
         this.locator = locator;
     }
 
-    @SuppressWarnings("unchecked")
     private FluentWait<WebDriver> baseWait(){
-        return new FluentWait(getDriver())
+        return new FluentWait(getTLDriver())
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(REFRESH_RATE))
                 .ignoring(NoSuchElementException.class)
@@ -33,9 +32,9 @@ public class Element{
         return baseWait().until(condition.apply(findElement()));
     }
 
-    @SuppressWarnings("unchecked")
+
     public static List<WebElement> getElements(By locator) {
-        Wait wait = new FluentWait(getDriver())
+        Wait wait = new FluentWait(getTLDriver())
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(REFRESH_RATE))
                 .ignoring(NoSuchElementException.class)
@@ -44,7 +43,7 @@ public class Element{
     }
 
     private WebElement findElement() {
-        return getDriver().findElement(locator);
+        return getTLDriver().findElement(locator);
     }
 
     public static Element getElement(By locator) {
@@ -64,12 +63,12 @@ public class Element{
     }
 
     public static Select getSelect(By locator) {
-       return  new Select(getDriver().findElement(locator));
+       return  new Select(getTLDriver().findElement(locator));
     }
 
     public boolean isElementVisible() {
         try {
-            WebElement element = getDriver().findElement(locator);
+            WebElement element = getTLDriver().findElement(locator);
             if (element != null) {
                 return element.isDisplayed();
             }

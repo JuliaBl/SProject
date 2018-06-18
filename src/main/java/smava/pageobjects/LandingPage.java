@@ -9,7 +9,6 @@ import smava.domain.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import static smava.setup.SeleniumDriver.getDriver;
 import static smava.setup.element.Element.getElement;
 import static smava.setup.element.Element.getElements;
 
@@ -109,7 +108,7 @@ public class LandingPage extends Page<LandingPage> {
 
     public CreditComparisonPage clickOnNextWithOption(String option) {
         int indexMinPriceCredit = getListOfMinPricesCredit().indexOf(option);
-        getDriver().findElement(By.xpath("//button[@class='ui right orange button']['" + indexMinPriceCredit + "']")).click();
+        getElement(By.xpath("//button[@class='ui right orange button']['" + indexMinPriceCredit + "']")).click();
         return new CreditComparisonPage().openPage(CreditComparisonPage.class);
     }
 

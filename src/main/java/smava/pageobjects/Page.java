@@ -7,15 +7,13 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import smava.utils.Config;
 import smava.utils.PropertiesLoader;
-
 import java.time.Duration;
 import java.util.NoSuchElementException;
-import static smava.setup.SeleniumDriver.getDriver;
-
+import static smava.setup.WebDriverRunner.getTLDriver;
 
 public abstract class Page<T> {
     protected static final Config config = PropertiesLoader.getConfig();
-    private static WebDriver driver = getDriver();
+    private WebDriver driver = getTLDriver();
     private static final String BASE_URL = config.getUrl();
     private static final int LOAD_TIMEOUT = 30;
     private static final int REFRESH_RATE = 2;
@@ -31,7 +29,7 @@ public abstract class Page<T> {
     }
 
     private void waitForPageToLoad(ExpectedCondition pageLoadCondition){
-        Wait wait = new FluentWait(getDriver())
+        Wait wait = new FluentWait(getTLDriver())
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(REFRESH_RATE))
                 .ignoring(NoSuchElementException.class)

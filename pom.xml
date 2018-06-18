@@ -10,9 +10,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <junit.api.version>5.0.1</junit.api.version>
-        <junit.jupiter.version>5.0.1</junit.jupiter.version>
-        <junit.platform.version>1.0.1</junit.platform.version>
+        <junit.api.version>5.1.0</junit.api.version>
+        <junit.jupiter.version>5.1.0</junit.jupiter.version>
+        <junit.platform.version>1.1.0</junit.platform.version>
         <aspectj.version>1.8.11</aspectj.version>
         <allure.maven.version>2.9</allure.maven.version>
     </properties>
@@ -23,6 +23,7 @@
             <artifactId>selenium-java</artifactId>
             <version>3.11.0</version>
         </dependency>
+
         <dependency>
             <groupId>ru.qatools.commons</groupId>
             <artifactId>properties</artifactId>
@@ -82,6 +83,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
+                    <includes>
+                        <include>**/*TestSuite.java</include>
+                    </includes>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>

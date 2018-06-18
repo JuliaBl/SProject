@@ -1,6 +1,5 @@
 package smavaUITests;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import smava.domain.User;
@@ -9,22 +8,15 @@ import smava.pageobjects.LandingPage;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
-import static smava.setup.SeleniumDriver.getDriver;
 
-
-public class LoginTest{
+public class LoginTest extends BaseTest{
     private LandingPage landingPage;
     private InvalidLoginPage invalidLoginPage;
     private User invalidUser;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpLoginTest() {
         landingPage = new LandingPage().open();
-    }
-
-    @AfterAll
-    public static void tearDown() {
-        getDriver().quit();
     }
 
     @Test

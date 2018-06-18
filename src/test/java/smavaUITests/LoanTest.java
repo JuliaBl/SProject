@@ -1,6 +1,5 @@
 package smavaUITests;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import smava.pageobjects.CreditComparisonPage;
@@ -9,14 +8,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 
-public class LoanTest {
+
+public class LoanTest extends BaseTest {
     private LandingPage landingPage;
     private CreditComparisonPage creditComparisonPage;
 
     @BeforeEach
-    public void setUp() {
+    public void setUpLoanTest() {
         landingPage = new LandingPage().open();
     }
+
 
     @Test
     public void testCanAskAndVerifyLoan() {
