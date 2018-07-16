@@ -2,12 +2,13 @@ package smavaUITests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import smava.pageobjects.CreditComparisonPage;
 import smava.pageobjects.LandingPage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
-
 
 public class LoanTest extends BaseTest {
     private LandingPage landingPage;
@@ -18,18 +19,18 @@ public class LoanTest extends BaseTest {
         landingPage = new LandingPage().open();
     }
 
-
-    @Test
-    public void testCanAskAndVerifyLoan() {
+    @ParameterizedTest
+    @CsvSource({"2.750 €, 24 Monate, Wohnen", "120.000 €, 12 Monate, Wohnen"})
+    public void testCanAskAndVerifyLoan(String creditValue, String duration, String reason) {
         creditComparisonPage =
                 landingPage
-                        .selectCreditAmount("2.750 €")
-                        .selectCreditDuration("24 Monate")
-                        .selectCreditCategory("Wohnen")
+                        .selectCreditAmount(creditValue)
+                        .selectCreditDuration(duration)
+                        .selectCreditCategory(reason)
                         .clickOnLoanSelectForward();
-        assertThat(creditComparisonPage.getCreditLoanAmountFromDropDown(), containsString("2.750 €"));
-        assertThat(creditComparisonPage.getCreditLoanTermFromDropDown(), containsString("24 Monate"));
-        assertThat(creditComparisonPage.getCreditUseFromDropDown(), containsString("Wohnen"));
+        assertThat(creditComparisonPage.getCreditLoanAmountFromDropDown(), containsString(creditValue));
+        assertThat(creditComparisonPage.getCreditLoanTermFromDropDown(), containsString(duration));
+        assertThat(creditComparisonPage.getCreditUseFromDropDown(), containsString(reason));
     }
 
     @Test

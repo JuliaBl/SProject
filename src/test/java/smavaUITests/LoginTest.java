@@ -6,8 +6,8 @@ import smava.domain.User;
 import smava.pageobjects.InvalidLoginPage;
 import smava.pageobjects.LandingPage;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.assertThat;
 
 public class LoginTest extends BaseTest{
     private LandingPage landingPage;
@@ -27,8 +27,8 @@ public class LoginTest extends BaseTest{
                         .clickOnSighInLink()
                         .inputUserEmailPassword(invalidUser)
                         .clickOnSignIn(InvalidLoginPage.class);
-        assertThat(invalidLoginPage.getSignInError(), containsString("Ihre Angaben zum Einloggen sind ungültig. " +
-                "Bitte versuchen Sie es erneut. Bitte beachten Sie, dass Ihr Zugang bei 3 Fehlversuchen von uns vorläufig gesperrt wird."));
+        assertThat(invalidLoginPage.getSignInError(), containsString("Ihre Angaben zum Einloggen sind ungültig. Bitte versuchen Sie es erneut. " +
+                "Bitte beachten Sie, dass Ihr Zugang bei 3 Fehlversuchen von uns vorläufig gesperrt wird."));
     }
 
     @Test

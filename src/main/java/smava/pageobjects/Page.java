@@ -12,11 +12,11 @@ import java.util.NoSuchElementException;
 import static smava.setup.WebDriverRunner.getTLDriver;
 
 public abstract class Page<T> {
-    protected static final Config config = PropertiesLoader.getConfig();
+    private static final Config config = PropertiesLoader.getConfig();
     private WebDriver driver = getTLDriver();
     private static final String BASE_URL = config.getUrl();
-    private static final int LOAD_TIMEOUT = 30;
-    private static final int REFRESH_RATE = 2;
+    private static final int LOAD_TIMEOUT = 60;
+    private static final int REFRESH_RATE = 5;
 
     public T openPage(Class<T> clazz){
         T page = PageFactory.initElements(driver, clazz);
@@ -28,16 +28,15 @@ public abstract class Page<T> {
         return page;
     }
 
+    @SuppressWarnings("unchecked")
     private void waitForPageToLoad(ExpectedCondition pageLoadCondition){
-        Wait wait = new FluentWait(getTLDriver())
+        Wait wait = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(REFRESH_RATE))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
        wait.until(pageLoadCondition);
     }
-
-
 
     /**
      * Provides condition when page can be considered as fully loaded.

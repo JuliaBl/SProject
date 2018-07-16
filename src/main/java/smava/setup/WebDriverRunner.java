@@ -16,7 +16,7 @@ public class WebDriverRunner {
     public synchronized static void setTLDriver () throws MalformedURLException {
         if (!Boolean.parseBoolean(config.isRemote())) {
             if(tlDriver.get() == null) {
-                tlDriver = ThreadLocal.withInitial(() -> new ChromeDriver());
+                tlDriver = ThreadLocal.withInitial(ChromeDriver::new);
             }
         }
         else {

@@ -2,23 +2,22 @@ package smava.setup.element;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import static smava.setup.WebDriverRunner.getTLDriver;
 
-
 public class Element{
-    private static final int LOAD_TIMEOUT = 60;
-    private static final int REFRESH_RATE = 5;
+    private static final int LOAD_TIMEOUT = 80;
+    private static final int REFRESH_RATE = 2;
     private By locator;
 
     protected Element(By locator) {
         this.locator = locator;
     }
 
+    @SuppressWarnings("unchecked")
     private FluentWait<WebDriver> baseWait(){
         return new FluentWait(getTLDriver())
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
@@ -32,9 +31,9 @@ public class Element{
         return baseWait().until(condition.apply(findElement()));
     }
 
-
+    @SuppressWarnings("unchecked")
     public static List<WebElement> getElements(By locator) {
-        Wait wait = new FluentWait(getTLDriver())
+      Wait wait = new FluentWait(getTLDriver())
                 .withTimeout(Duration.ofSeconds(LOAD_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(REFRESH_RATE))
                 .ignoring(NoSuchElementException.class)
@@ -43,6 +42,7 @@ public class Element{
     }
 
     private WebElement findElement() {
+        waitForDocStateReady();
         return getTLDriver().findElement(locator);
     }
 
@@ -80,5 +80,10 @@ public class Element{
 
     public WebElement getWrappedElement() {
         return  waitFor(ExpectedConditions::visibilityOf);
+    }
+
+    private static void waitForDocStateReady() {
+        new WebDriverWait(getTLDriver(), 50).until((ExpectedCondition<Boolean>) wd ->
+                ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
     }
 }
